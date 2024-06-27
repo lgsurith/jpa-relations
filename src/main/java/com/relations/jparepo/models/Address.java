@@ -26,8 +26,10 @@ public class Address {
     @Column(nullable = false)
     private String zipCode;
 
-    //making it bi direcctional as well
+    //making it bi directional as well
     @OneToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    
 }
