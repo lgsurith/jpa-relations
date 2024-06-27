@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 
+
 @Entity
 @Table(name = "department")
 public class Department {
@@ -33,7 +34,6 @@ public class Department {
     }
 
     public String getName() {
-        
         return name;
     }
 
