@@ -27,8 +27,7 @@ public class Address {
     private String zipCode;
 
     //making it bi directional as well
-    @OneToOne
-    @JoinColumn(name = "employee_id")
+    @OneToOne(mappedBy = "address")
     private Employee employee;
 
 

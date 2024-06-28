@@ -2,6 +2,7 @@ package com.relations.jparepo.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 //note : javax is depricated so we use jakarta.
 import jakarta.persistence.Entity;
@@ -43,12 +44,12 @@ public class Employee {
 
     //setting up the jpa relationships
     //sets up a foreign key.
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id" , nullable = false)
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id" , nullable = false)
     private Department department;
 
 

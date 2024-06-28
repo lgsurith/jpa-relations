@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 import com.relations.jparepo.repositories.employee_repo;
+import com.relations.jparepo.models.Address;
 import com.relations.jparepo.models.Employee;
 
 
@@ -43,9 +45,10 @@ public class employee_controller {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Employee> addEmployee(){
-        Employee employee = new Employee();
-        return ResponseEntity.ok(employeeRepository.save(employee));
+    public Employee addEmployee(@RequestBody Employee employee){
+        Address address = employee.getAddress();
+        address.setEmployee(employee);
+        return employeeRepository.save(employee);
     }
 
     @PutMapping("/update")
