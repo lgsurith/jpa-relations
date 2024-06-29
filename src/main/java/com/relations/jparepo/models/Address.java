@@ -1,11 +1,12 @@
 package com.relations.jparepo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -27,6 +28,7 @@ public class Address {
     private String zipCode;
 
     //making it bi directional as well
+    @JsonBackReference
     @OneToOne(mappedBy = "address")
     private Employee employee;
 

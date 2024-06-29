@@ -2,6 +2,8 @@ package com.relations.jparepo.models;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 //note : javax is depricated so we use jakarta.
@@ -44,6 +46,7 @@ public class Employee {
 
     //setting up the jpa relationships
     //sets up a foreign key.
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id" , nullable = false)
     private Address address;

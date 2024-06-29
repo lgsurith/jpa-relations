@@ -1,6 +1,9 @@
 package com.relations.jparepo.models;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +24,7 @@ public class Department {
     private String name;
 
     //so many employee's might have a specific department.
+    @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Employee> employees;
 
