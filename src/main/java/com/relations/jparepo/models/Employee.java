@@ -1,17 +1,22 @@
 package com.relations.jparepo.models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+//note : javax is depricated so we use jakarta.
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-//note : javax is depricated so we use jakarta.
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -40,12 +45,10 @@ public class Employee {
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    // @Enumerated(EnumType.STRING)
-    // @Column(nullable = false)
-    // private EmployeeRole role;
-
     //setting up the jpa relationships
     //sets up a foreign key.
+    //NOTE : JoinColumn specifies that its the owner of the relationship.
+    
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id" , nullable = false)
@@ -55,6 +58,22 @@ public class Employee {
     @JoinColumn(name = "department_id" , nullable = false)
     private Department department;
 
+    //to add multiple Cascade for ORM operations follow this.
+    //CascadeType.PERSIST : when we save the entity, related entities are also saved.
+    //CascadeType.MERGE : when we update the entity, related entities are also updated.
+    @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.MERGE })
+    @JoinTable(
+        name = "Employee_Projects",
+        joinColumns = @JoinColumn(name = "employee_id"),
+        inverseJoinColumns = @JoinColumn(name = "projects_id" , nullable = false)
+    )
+    private Set<Projects> projects = new HashSet<>();
+
+    //to add project functionality for many to many.
+    public void addProject(Projects project){
+        this.projects.add(project);
+        project.getEmployees().add(this);
+    }
 
     //setting up the getters and setters.
     public Integer getId() {
@@ -119,5 +138,13 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Set<Projects> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Projects> projects) {
+        this.projects = projects;
     }
 }
