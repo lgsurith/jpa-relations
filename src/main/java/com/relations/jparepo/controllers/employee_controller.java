@@ -59,14 +59,19 @@ public class employee_controller {
 
     //posting the projects based on the many to many relationship)
     @PostMapping("/{employeeId}/projects/{projectId}")
-    public ResponseEntity<Employee> addProject(
+    public ResponseEntity<?> addProject(
         @PathVariable Integer employeeId,
         @PathVariable Integer projectId){
             Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("Employee Not Found with the given employeeID" + employeeId));
             Projects project  = projectsRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Project Not Found with the given projectID" + projectId));
 
+            if (employee.getProjects().contains(project)){
+                return ResponseEntity.badRequest().body("This Project is aldready associated with the employee !");
+            }
+
             employee.addProject(project);
-            return ResponseEntity.ok(employeeRepository.save(employee));
+            employeeRepository.save(employee);
+            return ResponseEntity.ok().build();
         }
     
 
